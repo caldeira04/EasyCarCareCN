@@ -21,7 +21,7 @@ export interface Lancamento {
 
 export default function Lancamentos() {
   const [lancamentos, setLancamentos] = useState<Lancamento[]>([])
-  const [dateRange, setDateRange] = useState<DateRange>({ from: undefined, to: undefined })
+  const [dateRange, setDateRange] = useState<DateRange>()
   const [insertValor, setInsertValor] = useState<number>(0)
   const [insertDescricao, setInsertDescricao] = useState<string>('')
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -41,11 +41,12 @@ export default function Lancamentos() {
       console.error(error)
     }
   }
+
   const filterLancamentos = () => {
     if (dateRange?.from && dateRange?.to) {
       return lancamentos.filter((lancamento) => {
         const lancamentoDate = new Date(lancamento.data)
-        return lancamentoDate >= dateRange.from && lancamentoDate <= dateRange.to
+        return lancamentoDate >= dateRange.from! && lancamentoDate <= dateRange.to!
       })
     }
     return lancamentos
@@ -94,6 +95,12 @@ export default function Lancamentos() {
     setIsOpen(false)
   }
 
+  const handleDateChange = (range: DateRange | undefined) => {
+    if (range) {
+      setDateRange(range)
+    }
+  }
+
   const handleNewLancamento = () => {
     setIsOpen(true)
   }
@@ -110,7 +117,7 @@ export default function Lancamentos() {
         {/* Lista de lancamentos */}
         <ScrollArea className="h-[calc(100vh-200px)] mt-4">
           <div className="flex justify-center items-center gap-2">
-            <DatePickerWithRange className="w-full" onChange={(range) => setDateRange(range)} />
+            <DatePickerWithRange className="w-full" onChange={handleDateChange} />
             <Button
               onClick={() => handleNewLancamento()}
               className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white"
