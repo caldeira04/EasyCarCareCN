@@ -26,10 +26,13 @@ export default function DatePickerWithRange({
     to: addDays(new Date(), 7),
   })
 
-  const handleDateChange = (range: DateRange) => {
-    setDate(range)
-    onChange?.(range)
+  const handleDateChange = (range: DateRange | undefined) => {
+    if (range) {
+      setDate(range)
+      onChange?.(range)
+    }
   }
+  
 
 
   return (
