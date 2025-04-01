@@ -52,7 +52,7 @@ export default function Servicos() {
         }
       } else {
         setServicos([]);
-        console.log('Erro ao carregar serviços', response.data);
+        console.log('Tchê, deu algum bug aí!!!', response.data);
       }
     } catch (error) {
       console.error('Erro ao carregar serviços', error);
